@@ -3,6 +3,7 @@ from PIL import Image, ImageTk, ImageOps
 from tkinter import simpledialog
 import time
 import os
+import destressActivities
 
 absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
@@ -141,5 +142,6 @@ class stickFigurePet():
 
         # Call update after 10ms
         self.window.after(10, self.update)
+    
 
-stickFigurePet()
+pet()
