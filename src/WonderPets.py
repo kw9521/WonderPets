@@ -2,18 +2,19 @@ import tkinter as tk
 import time
 import random
 import os
+import destressActivities
 
 absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
-#test
+
 class pet():
     def __init__(self):
         # create a window
         self.window = tk.Tk()
 
         # placeholder image
-        self.walking_right = [tk.PhotoImage(file=path_to_imgs+'\walking_right.gif', format='gif -index %i' % (i)) for i in range(4)]
+        self.walking_right = [tk.PhotoImage(file=path_to_imgs+img, format='gif -index %i' % (i)) for i in range(4)]
         self.frame_index = 0
         self.img = self.walking_right[self.frame_index]
 
@@ -69,6 +70,5 @@ class pet():
 
         # call update after 10ms
         self.window.after(10, self.update)
-    
-
+        
 pet()
