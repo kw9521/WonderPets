@@ -9,7 +9,7 @@ absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
 
-class stickFigurePet():
+class pet():
     
     def show_welcome_message(self):
         welcome_window = tk.Tk()
@@ -142,7 +142,5 @@ class stickFigurePet():
 
         # Call update after 10ms
         self.window.after(75, self.update)
-
-stickFigurePet()
 
 pet()
