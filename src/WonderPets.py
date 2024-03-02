@@ -1,9 +1,8 @@
-import tkinter as tk
+import tkinter as tk 
 from PIL import Image, ImageTk, ImageOps
 from tkinter import simpledialog
 import time
 import os
-import destressActivities
 
 absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
@@ -15,7 +14,7 @@ class stickFigurePet():
         welcome_window = tk.Tk()
         welcome_window.withdraw()
         tk.messagebox.showinfo("Welcome\n", "Welcome to Wonder Pets!!!\n\nIn this world, your pet will never leave you (unless you CTRL+C).\n\nInstead, they will bother you by making a full rotation around your screen.")
-        welcome_window.destroy()
+        welcome_window.destroy() 
 
     def select_pet(self):
         selection_window = tk.Tk()
@@ -142,6 +141,3 @@ class stickFigurePet():
 
         # Call update after 10ms
         self.window.after(10, self.update)
-    
-
-pet()
