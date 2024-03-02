@@ -8,7 +8,7 @@ absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
 
-class stickFigurePet():
+class pet():
     
     def show_welcome_message(self):
         welcome_window = tk.Tk()
@@ -91,7 +91,7 @@ class stickFigurePet():
         # create a window of size 128x128 pixels, at coordinates 0,0
         self.x = 0
         self.y = 0
-        self.window.geometry('10x10+{x}+0'.format(x=str(self.x)))
+        self.window.geometry('64x64+{x}+0'.format(x=str(self.x)))
 
         # add the image to our label
         self.label.configure(image=self.img)
@@ -140,4 +140,6 @@ class stickFigurePet():
         self.label.pack()
 
         # Call update after 10ms
-        self.window.after(10, self.update)
+        self.window.after(75, self.update)
+
+pet()
