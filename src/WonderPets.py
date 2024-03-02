@@ -3,7 +3,7 @@ from PIL import Image, ImageTk, ImageOps
 from tkinter import simpledialog
 import time
 import os
-import destressActivities
+# import destressActivities
 
 absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
@@ -21,18 +21,32 @@ class pet():
         selection_window = tk.Tk()
         selection_window.title("Choose Your Pet")
 
+        # Keep the window on top of all other applications
+        selection_window.attributes('-topmost', True)
+
         def on_pet_selected(pet_name):
             self.imageChosen = pet_name
             selection_window.destroy()
 
-        tk.Label(selection_window, text="Before we get started...Please choose your pet:").pack()
+        label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
+        label.pack(pady=10)
 
         pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
-            button.pack()
+            button.pack(pady=2)
+
+        # Calculate the center position of the window
+        selection_window.update_idletasks()  # Update "requested size" from geometry manager
+        width = selection_window.winfo_width()
+        height = selection_window.winfo_height()
+        x = (selection_window.winfo_screenwidth() // 2) - (width // 2)
+        y = (selection_window.winfo_screenheight() // 2) - (height // 2)
+        selection_window.geometry(f'{width}x{height}+{x}+{y}')  # Set the position of the window
 
         selection_window.mainloop()
+
+
 
     def __init__(self):
 
