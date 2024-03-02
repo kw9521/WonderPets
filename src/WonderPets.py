@@ -1,6 +1,11 @@
 import tkinter as tk
 import time
 import random
+import os
+
+absolute_path = os.path.dirname(__file__)
+relative_path = "\media"
+path_to_imgs = absolute_path+relative_path
 
 class pet():
     def __init__(self):
@@ -8,7 +13,7 @@ class pet():
         self.window = tk.Tk()
 
         # placeholder image
-        self.walking_right = [tk.PhotoImage(file='src/walking_right.gif', format='gif -index %i' % (i)) for i in range(4)]
+        self.walking_right = [tk.PhotoImage(file=path_to_imgs+'\walking_right.gif', format='gif -index %i' % (i)) for i in range(4)]
         self.frame_index = 0
         self.img = self.walking_right[self.frame_index]
 
@@ -64,5 +69,6 @@ class pet():
 
         # call update after 10ms
         self.window.after(10, self.update)
+    
 
 pet()
