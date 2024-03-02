@@ -6,7 +6,7 @@ import os
 absolute_path = os.path.dirname(__file__)
 relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
-
+#test
 class pet():
     def __init__(self):
         # create a window
