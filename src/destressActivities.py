@@ -11,10 +11,16 @@ hour_count = 0
 
 current_time = datetime.datetime.now()
     
-target_time = current_time + datetime.timedelta(seconds=5)
+target_time = current_time + datetime.timedelta(hours=1)
 while(True):
     while current_time < target_time:
         current_time = datetime.datetime.now()
-    target_time = current_time + datetime.timedelta(seconds=5)
+    target_time = current_time + datetime.timedelta(hours=1)
     hour_count += 1
-    print(hour_count)
+    if hour_count % 6 == 0:
+        continue
+    elif hour_count % 3 == 0:
+        continue
+    elif hour_count % 1 == 0:
+        continue
+    
