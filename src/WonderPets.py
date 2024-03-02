@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk, ImageOps
+from tkinter import simpledialog
 import time
 import os
 
@@ -8,7 +9,36 @@ relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
 
 class stickFigurePet():
+    
+    def show_welcome_message(self):
+        welcome_window = tk.Tk()
+        welcome_window.withdraw()
+        tk.messagebox.showinfo("Welcome\n", "Welcome to Wonder Pets!!!\n\nIn this world, your pet will never leave you (unless you CTRL+C).\n\nInstead, they will bother you by making a full rotation around your screen.")
+        welcome_window.destroy()
+
+    def select_pet(self):
+        selection_window = tk.Tk()
+        selection_window.title("Choose Your Pet")
+
+        def on_pet_selected(pet_name):
+            self.imageChosen = pet_name
+            selection_window.destroy()
+
+        tk.Label(selection_window, text="Before we get started...Please choose your pet:").pack()
+
+        pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat"]
+        for pet in pets:
+            button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
+            button.pack()
+
+        selection_window.mainloop()
+
     def __init__(self):
+
+        # Show welcome message and pet selection before initializing the window
+        self.show_welcome_message()
+        self.select_pet()
+
         # create a window
         self.window = tk.Tk()
         
@@ -16,12 +46,13 @@ class stickFigurePet():
         self.direction = 'right'  
 
         # placeholder image
-        self.walking_right = [tk.PhotoImage(file=path_to_imgs+'\walking_right.gif', format='gif -index %i' % (i)) for i in range(4)]
+        imgName = chr(92)+self.imageChosen+".gif"
+        self.walking_right = [tk.PhotoImage(file=path_to_imgs+ imgName, format='gif -index %i' % (i)) for i in range(4)]
 
         # Load and flip images for leftward walking
         self.walking_left = []
         for i in range(4):
-            pil_image = Image.open(f"{path_to_imgs}\walking_right.gif")
+            pil_image = Image.open(f"{path_to_imgs}"+chr(92)+self.imageChosen+".gif")
             pil_image.seek(i)
             flipped_image = ImageOps.mirror(pil_image)
             tk_image = ImageTk.PhotoImage(flipped_image)
@@ -30,8 +61,17 @@ class stickFigurePet():
         self.frame_index = 0
         self.img = self.walking_right[self.frame_index]
 
+        self.timestamp = time.time()
+        self.setup_window()
+
         # timestamp to check whether to advance frame
         self.timestamp = time.time()
+        
+        # run self.update() after 0ms when mainloop starts
+        self.window.after(0, self.update)
+        self.window.mainloop()
+
+    def setup_window(self):
 
         # set focushighlight to black when the window does not have focus
         self.window.config(highlightbackground='black')
@@ -58,10 +98,6 @@ class stickFigurePet():
 
         # give window to geometry manager (so it will appear)
         self.label.pack()
-
-        # run self.update() after 0ms when mainloop starts
-        self.window.after(0, self.update)
-        self.window.mainloop()
 
     def update(self):
         screen_width = self.window.winfo_screenwidth()
@@ -105,7 +141,5 @@ class stickFigurePet():
 
         # Call update after 10ms
         self.window.after(10, self.update)
-
-
 
 stickFigurePet()
