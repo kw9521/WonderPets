@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import *
 from PIL import Image, ImageTk, ImageOps
 import threading
 import datetime
@@ -12,7 +12,6 @@ relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
 
 class pet():
-    
     def show_welcome_message(self):
         welcome_window = tk.Tk()
         welcome_window.withdraw()
