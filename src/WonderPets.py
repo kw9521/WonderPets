@@ -1,6 +1,9 @@
-import tkinter as tk 
+import tkinter as tk
+from tkinter import messagebox 
 from PIL import Image, ImageTk, ImageOps
-from tkinter import simpledialog
+import threading
+import datetime
+import random
 import time
 import os
 
@@ -45,7 +48,6 @@ class pet():
         selection_window.mainloop()
 
 
-
     def __init__(self):
 
         # Show welcome message and pet selection before initializing the window
@@ -73,12 +75,14 @@ class pet():
 
         self.frame_index = 0
         self.img = self.walking_right[self.frame_index]
-
-        self.timestamp = time.time()
+        # self.timestamp = time.time()
         self.setup_window()
 
+        # Start destressActivities in a separate thread
+        threading.Thread(target=self.run_destress_activities, daemon=True).start()
+
         # timestamp to check whether to advance frame
-        self.timestamp = time.time()
+        # self.timestamp = time.time()
         
         # run self.update() after 0ms when mainloop starts
         self.window.after(0, self.update)
@@ -142,6 +146,7 @@ class pet():
 
         # Update the frame and image for animation
         self.frame_index = (self.frame_index + 1) % 4
+        
         if self.direction in ['right', 'down']:  # Use rightward frames for right and down directions
             self.img = self.walking_right[self.frame_index]
         else:  # Use leftward (flipped) frames for left and up directions
@@ -154,5 +159,74 @@ class pet():
 
         # Call update after 10ms
         self.window.after(75, self.update)
+
+    def run_destress_activities(self):
+        path_to_msg = absolute_path+relative_path+"\\messages\\"
+        short_break = ['curious.png', 'embrace-journey.png', 'great-things.png', 'porcupine.png', 'unicorn.png', 'victory.png']
+        medium_break = ['enough.png', 'keep-going.png', 'hydration.png']
+        long_break = ['screen-reminder.png', 'stretch.png', 'take-care.png']
+        hour_count = 0
+        current_time = datetime.datetime.now()
+
+        target_time = current_time + datetime.timedelta(seconds=5)
+        while True:
+
+            while current_time < target_time:
+                current_time = datetime.datetime.now()
+            
+            target_time = current_time + datetime.timedelta(seconds=5)
+            hour_count += 1
+
+            if hour_count % 6 == 0:
+                img_path = os.path.join(path_to_msg, random.choice(long_break))
+            elif hour_count % 3 == 0:
+                img_path = os.path.join(path_to_msg, random.choice(medium_break))
+            elif hour_count % 1 == 0:
+                img_path = os.path.join(path_to_msg, random.choice(short_break))
+            if os.path.exists(img_path):
+                self.show_break_image(img_path)
+
+    def show_break_image(self, img_path):
+        # This method schedules show_custom_dialog to be called in the main thread
+        self.window.after(0, lambda: self.show_custom_dialog(img_path))
+
+    def show_custom_dialog(self, img_path):
+        dialog = tk.Toplevel(self.window)
+        dialog.title("Time for a break!")
+        dialog.overrideredirect(True)  # This removes the window borders and title bar
+        dialog.attributes('-topmost', True)  # Ensure the window is on top
+
+        # Load the image using PIL and create a PhotoImage
+        image = Image.open(img_path)
+        photo = ImageTk.PhotoImage(image)
+
+        # Keep a reference to the image so that it's not garbage collected
+        dialog.image = photo
+
+        label = tk.Label(dialog, image=photo, bd=0)
+        label.pack(pady=10, padx=10)
+
+        # This function will be called when the image is clicked, destroying the dialog
+        def on_click(event=None):
+            dialog.destroy()
+
+        # Bind the click event to the label containing the image
+        label.bind("<Button-1>", on_click)
+
+        dialog.update_idletasks()  # Update geometry now
+        width = photo.width()
+        height = photo.height()
+        x = (self.window.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.window.winfo_screenheight() // 2) - (height // 2)
+        
+        # Withdraw the dialog, set the geometry, and then deiconify
+        dialog.withdraw()
+        dialog.geometry(f'{width}x{height}+{x}+{y}')
+        dialog.deiconify()
+
+        # To automatically close the dialog after 5000 ms...approx 3 secs
+        # This shouldn't be a problem when we adjust the time it takes for each message to appear in the future!!!
+        dialog.after(3000, dialog.destroy)  
+
 
 pet()
