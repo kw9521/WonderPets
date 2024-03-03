@@ -38,7 +38,7 @@ p {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    justify-content: left;
+    justify-content: center;
 }
 
 #logo {
@@ -50,6 +50,10 @@ p {
     text-align: center;
     margin-top: 25px;
     margin-bottom: 50px;
+}
+
+#header p {
+    font-size: 1.5rem;
 }
 
 .pet {
