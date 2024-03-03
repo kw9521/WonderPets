@@ -1,4 +1,5 @@
 import tkinter as tk 
+from tkinter import messagebox
 from PIL import Image, ImageTk, ImageOps
 import threading
 import datetime
@@ -28,21 +29,23 @@ class pet():
             self.imageChosen = pet_name
             selection_window.destroy()
 
-        label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
+        label = tk.Label(selection_window, text="\tBefore we get started...Please choose your pet:\t")
         label.pack(pady=10)
 
         pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
-            button.pack(pady=2)
+            button.pack(pady=5)
 
         # Calculate the center position of the window
-        selection_window.update_idletasks()  # Update "requested size" from geometry manager
+        selection_window.update_idletasks()  
         width = selection_window.winfo_width()
         height = selection_window.winfo_height()
         x = (selection_window.winfo_screenwidth() // 2) - (width // 2)
         y = (selection_window.winfo_screenheight() // 2) - (height // 2)
-        selection_window.geometry(f'{width}x{height}+{x}+{y}')  # Set the position of the window
+
+        # Set the position of the window
+        selection_window.geometry(f'{width}x{height}+{x}+{y}')  
 
         selection_window.mainloop()
 
@@ -79,9 +82,6 @@ class pet():
 
         # Start destressActivities in a separate thread
         threading.Thread(target=self.run_destress_activities, daemon=True).start()
-
-        # timestamp to check whether to advance frame
-        # self.timestamp = time.time()
         
         # run self.update() after 0ms when mainloop starts
         self.window.after(0, self.update)
@@ -192,6 +192,5 @@ class pet():
         # This method should be called from the main thread since it updates the GUI
         # Using window.after to schedule the call on the main thread
         self.window.after(0, lambda: messagebox.showinfo("Time for a break!", "", icon=tk.PhotoImage(file=img_path)))
-
 
 pet()
