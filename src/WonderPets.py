@@ -1,8 +1,9 @@
-import tkinter as tk 
-from tkinter import messagebox
+import tkinter as tk
+from tkinter import messagebox 
 from PIL import Image, ImageTk, ImageOps
 import threading
 import datetime
+import random
 import time
 import os
 
@@ -29,23 +30,21 @@ class pet():
             self.imageChosen = pet_name
             selection_window.destroy()
 
-        label = tk.Label(selection_window, text="\tBefore we get started...Please choose your pet:\t")
+        label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
         label.pack(pady=10)
 
         pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
-            button.pack(pady=5)
+            button.pack(pady=2)
 
         # Calculate the center position of the window
-        selection_window.update_idletasks()  
+        selection_window.update_idletasks()  # Update "requested size" from geometry manager
         width = selection_window.winfo_width()
         height = selection_window.winfo_height()
         x = (selection_window.winfo_screenwidth() // 2) - (width // 2)
         y = (selection_window.winfo_screenheight() // 2) - (height // 2)
-
-        # Set the position of the window
-        selection_window.geometry(f'{width}x{height}+{x}+{y}')  
+        selection_window.geometry(f'{width}x{height}+{x}+{y}')  # Set the position of the window
 
         selection_window.mainloop()
 
@@ -82,6 +81,9 @@ class pet():
 
         # Start destressActivities in a separate thread
         threading.Thread(target=self.run_destress_activities, daemon=True).start()
+
+        # timestamp to check whether to advance frame
+        # self.timestamp = time.time()
         
         # run self.update() after 0ms when mainloop starts
         self.window.after(0, self.update)
@@ -160,17 +162,15 @@ class pet():
         self.window.after(75, self.update)
 
     def run_destress_activities(self):
-        short_break = 1
-        medium_break = 3
-        long_break = 6
+        path_to_msg = absolute_path+relative_path+"\\messages\\"
+        short_break = ['curious.png', 'embrace-journey.png', 'great-things.png', 'porcupine.png', 'unicorn.png', 'victory.png']
+        medium_break = ['enough.png', 'keep-going.png', 'hydration.png']
+        long_break = ['screen-reminder.png', 'stretch.png', 'take-care.png']
         hour_count = 0
         current_time = datetime.datetime.now()
 
-        target_time = current_time + datetime.timedelta(hours=1)
+        target_time = current_time + datetime.timedelta(seconds=5)
         while True:
-
-            while datetime.datetime.now() < target_time:
-                time.sleep(1)  # Sleep to prevent high CPU usage
 
             while current_time < target_time:
                 current_time = datetime.datetime.now()
@@ -179,18 +179,44 @@ class pet():
             hour_count += 1
 
             if hour_count % 6 == 0:
-                img_path = os.path.join(path_to_imgs, 'curious.png')
+                img_path = os.path.join(path_to_msg, random.choice(long_break))
             elif hour_count % 3 == 0:
-                img_path = os.path.join(path_to_imgs, 'embrace-journey.png')
+                img_path = os.path.join(path_to_msg, random.choice(medium_break))
             elif hour_count % 1 == 0:
-                img_path = os.path.join(path_to_imgs, 'take-care.png')
-
+                img_path = os.path.join(path_to_msg, random.choice(short_break))
             if os.path.exists(img_path):
                 self.show_break_image(img_path)
 
     def show_break_image(self, img_path):
-        # This method should be called from the main thread since it updates the GUI
-        # Using window.after to schedule the call on the main thread
-        self.window.after(0, lambda: messagebox.showinfo("Time for a break!", "", icon=tk.PhotoImage(file=img_path)))
+        # This method schedules show_custom_dialog to be called in the main thread
+        self.window.after(0, lambda: self.show_custom_dialog(img_path))
+
+    def show_custom_dialog(self, img_path):
+        # Creates a custom dialog with an image
+        dialog = tk.Toplevel(self.window)
+        dialog.title("Time for a break!")
+        
+        # Set the dialog on top of all other windows
+        dialog.attributes('-topmost', True)
+        
+        image = Image.open(img_path)
+        photo = ImageTk.PhotoImage(image)
+        
+        # Keep a reference to the image so that it's not garbage collected
+        dialog.image = photo  
+        
+        label = tk.Label(dialog, image=photo)
+        label.pack(pady=10)
+        
+        # Button to close the dialog
+        tk.Button(dialog, text="OK", command=dialog.destroy).pack(pady=5)
+        
+        # Center the dialog on the screen
+        dialog.update_idletasks()
+        width = dialog.winfo_width()
+        height = dialog.winfo_height()
+        x = (self.window.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.window.winfo_screenheight() // 2) - (height // 2)
+        dialog.geometry(f'{width}x{height}+{x}+{y}')
 
 pet()
