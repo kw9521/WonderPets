@@ -1,3 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Press+Start+2P&display=swap');
 body {
     background-color: #FFF1E7;
+}
+
+h1 {
+    font-family: 'Press Start 2P', sans-serif;
+}
+p {
+    font-family: 'Jura', sans-serif;
+}
+#wrapper {
+    display: grid;
+    grid-template-areas: 
+    "logo"
+    "header"
+    "pets"
+}
+
+@media screen and (min-width: 850px ){
+    #wrapper {
+        grid-template-columns: 500px 1fr;
+        grid-template-areas: 
+        "header           logo"
+        "pets             pets"
+    }
+}
+
+#pets {
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+#logo {
+    grid-area: logo;
+    float: right;
+}
+
+#header {
+    grid-area: header;
+}
+
+#pets {
+    grid-area: pets;
 }
