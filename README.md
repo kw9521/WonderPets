@@ -1,19 +1,21 @@
 ﻿# WonderPets
 
 # Authors
-Kunlin Wen 
-Sukie Zhang
-Kristin Yap
-Melanie Couillard
+Kunlin Wen   
+Sukie Zhang   
+Kristin Yap   
+Melanie Couillard  
  
 # How To Run
-Make sure you have Python and tkinter installed!!
-Check if tkinter is installed with this command:  -m tkinter
-If it is, a demo window will pop up.
-If not, then run the Python installer again and make sure you have the “install tkinter/IDLE” box checked
-If that box isn’t checked, check if Python is installed with: python –version
-If Python is installed, check if PIP is installed with: pip -v
-If Pip is installed, use this command to install Tkinter: pip install tk
+You can view our list of pets and their descriptions here: https://wonderpets.design/
+How run the pets however, please look at the following:    
+Make sure you have Python and tkinter installed!!   
+Check if tkinter is installed with this command:  -m tkinter    
+If it is, a demo window will pop up.    
+If not, then run the Python installer again and make sure you have the “install tkinter/IDLE” box checked    
+If that box isn’t checked, check if Python is installed with: python –version    
+If Python is installed, check if PIP is installed with: pip -v    
+If Pip is installed, use this command to install Tkinter: pip install tk      
 
 # Inspiration
 We wanted to create a fun but helpful project for college students like us, who spend hours on end on our screens. We also all really enjoy cute gifs and desktop pets, so that’s how Widget’s Wonder Pets came to life! A little buddy on your screen while you work and gives you reminders periodically to take care of yourself and take a break.
