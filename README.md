@@ -7,9 +7,9 @@ Kristin Yap
 Melanie Couillard  
  
 # How To Run
-You can view our list of pets and their descriptions here: https://wonderpets.design/
-How run the pets however, please look at the following:    
-Make sure you have Python and tkinter installed!!   
+You can view our list of pets and their descriptions here: https://wonderpets.design/  
+To run the pets, however, please look at the following:    
+Make sure you have Python and Tkinter installed!!   
 Check if tkinter is installed with this command:  -m tkinter    
 If it is, a demo window will pop up.    
 If not, then run the Python installer again and make sure you have the “install tkinter/IDLE” box checked    
