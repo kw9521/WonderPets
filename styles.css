@@ -49,6 +49,7 @@ p {
     grid-area: header;
     text-align: center;
     margin-top: 25px;
+    margin-right: 50px;
     margin-bottom: 50px;
 }
 
@@ -58,8 +59,9 @@ p {
 
 .pet {
     text-align: center;
-    background-color: pink;
-    border: 1px solid black;
+    background-color: #f5a5c1;
+    border: 3px solid black;
+    color: black;
     padding: 30px;
     margin: 30px;
     max-width: 300px;
