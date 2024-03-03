@@ -1,6 +1,7 @@
 import tkinter as tk 
 from PIL import Image, ImageTk, ImageOps
-from tkinter import simpledialog
+import threading
+import datetime
 import time
 import os
 
@@ -46,7 +47,6 @@ class pet():
         selection_window.mainloop()
 
 
-
     def __init__(self):
 
         # Show welcome message and pet selection before initializing the window
@@ -74,12 +74,14 @@ class pet():
 
         self.frame_index = 0
         self.img = self.walking_right[self.frame_index]
-
-        self.timestamp = time.time()
+        # self.timestamp = time.time()
         self.setup_window()
 
+        # Start destressActivities in a separate thread
+        threading.Thread(target=self.run_destress_activities, daemon=True).start()
+
         # timestamp to check whether to advance frame
-        self.timestamp = time.time()
+        # self.timestamp = time.time()
         
         # run self.update() after 0ms when mainloop starts
         self.window.after(0, self.update)
@@ -143,6 +145,7 @@ class pet():
 
         # Update the frame and image for animation
         self.frame_index = (self.frame_index + 1) % 4
+        
         if self.direction in ['right', 'down']:  # Use rightward frames for right and down directions
             self.img = self.walking_right[self.frame_index]
         else:  # Use leftward (flipped) frames for left and up directions
@@ -155,5 +158,40 @@ class pet():
 
         # Call update after 10ms
         self.window.after(75, self.update)
+
+    def run_destress_activities(self):
+        short_break = 1
+        medium_break = 3
+        long_break = 6
+        hour_count = 0
+        current_time = datetime.datetime.now()
+
+        target_time = current_time + datetime.timedelta(hours=1)
+        while True:
+
+            while datetime.datetime.now() < target_time:
+                time.sleep(1)  # Sleep to prevent high CPU usage
+
+            while current_time < target_time:
+                current_time = datetime.datetime.now()
+            
+            target_time = current_time + datetime.timedelta(seconds=5)
+            hour_count += 1
+
+            if hour_count % 6 == 0:
+                img_path = os.path.join(path_to_imgs, 'curious.png')
+            elif hour_count % 3 == 0:
+                img_path = os.path.join(path_to_imgs, 'embrace-journey.png')
+            elif hour_count % 1 == 0:
+                img_path = os.path.join(path_to_imgs, 'take-care.png')
+
+            if os.path.exists(img_path):
+                self.show_break_image(img_path)
+
+    def show_break_image(self, img_path):
+        # This method should be called from the main thread since it updates the GUI
+        # Using window.after to schedule the call on the main thread
+        self.window.after(0, lambda: messagebox.showinfo("Time for a break!", "", icon=tk.PhotoImage(file=img_path)))
+
 
 pet()
