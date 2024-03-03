@@ -33,7 +33,7 @@ class pet():
         label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
         label.pack(pady=10)
 
-        pets = ["pixel-frog", "pixel-duck", "pink-cat", "cat-flopping-around", "corgi", "bear-roll"]
+        pets = ["Petal", "Quacker", "Berry", "Sunny", "Winston", "Cake"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
             button.pack(pady=2)
