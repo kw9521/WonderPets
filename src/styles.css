@@ -6,7 +6,13 @@ body {
 
 h1 {
     font-family: 'Press Start 2P', sans-serif;
+    font-size: 4rem;
 }
+
+h3{
+    font-family: 'Press Start 2P', sans-serif;
+}
+
 p {
     font-family: 'Jura', sans-serif;
 }
@@ -22,26 +28,35 @@ p {
     #wrapper {
         grid-template-columns: 500px 1fr;
         grid-template-areas: 
-        "header           logo"
+        "logo           header"
         "pets             pets"
     }
 }
 
 #pets {
+    grid-area: pets;
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     justify-content: space-around;
+    justify-content: left;
 }
 
 #logo {
     grid-area: logo;
-    float: right;
 }
 
 #header {
     grid-area: header;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 50px;
 }
 
-#pets {
-    grid-area: pets;
+.pet {
+    text-align: center;
+    background-color: pink;
+    border: 1px solid black;
+    padding: 30px;
+    margin: 30px;
+    max-width: 300px;
 }
