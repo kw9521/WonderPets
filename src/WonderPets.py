@@ -195,28 +195,37 @@ class pet():
         # Creates a custom dialog with an image
         dialog = tk.Toplevel(self.window)
         dialog.title("Time for a break!")
-        
-        # Set the dialog on top of all other windows
-        dialog.attributes('-topmost', True)
-        
+        dialog.overrideredirect(True)  # This removes the window borders and title bar
+        dialog.attributes('-topmost', True)  # Ensure the window is on top
+
+        # Load the image using PIL and create a PhotoImage
         image = Image.open(img_path)
         photo = ImageTk.PhotoImage(image)
         
         # Keep a reference to the image so that it's not garbage collected
         dialog.image = photo  
         
-        label = tk.Label(dialog, image=photo)
-        label.pack(pady=10)
-        
-        # Button to close the dialog
-        tk.Button(dialog, text="OK", command=dialog.destroy).pack(pady=5)
-        
-        # Center the dialog on the screen
-        dialog.update_idletasks()
-        width = dialog.winfo_width()
-        height = dialog.winfo_height()
+        # Create a label and pack the image into it
+        label = tk.Label(dialog, image=photo, bd=0)  # bd=0 removes the default border from the label
+        label.pack(pady=10, padx=10)  # Padding can be adjusted or removed as needed
+
+        # Calculate the center position of the window
+        dialog.update_idletasks()  # Update geometry
+        width = photo.width()
+        height = photo.height()
         x = (self.window.winfo_screenwidth() // 2) - (width // 2)
         y = (self.window.winfo_screenheight() // 2) - (height // 2)
         dialog.geometry(f'{width}x{height}+{x}+{y}')
+
+        # This function will be called when the image is clicked, destroying the dialog
+        def on_click(event=None):
+            dialog.destroy()
+
+        # Bind the click event to the label containing the image
+        label.bind("<Button-1>", on_click)
+
+        # To automatically close the dialog after 5000 ms...approx 5 secs
+        # dialog.after(5000, dialog.destroy)  
+
 
 pet()
