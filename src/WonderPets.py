@@ -33,7 +33,7 @@ class pet():
         label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
         label.pack(pady=10)
 
-        pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat"]
+        pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat", "cat-flopping-around", "corgi"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
             button.pack(pady=2)
@@ -81,9 +81,6 @@ class pet():
 
         # Start destressActivities in a separate thread
         threading.Thread(target=self.run_destress_activities, daemon=True).start()
-
-        # timestamp to check whether to advance frame
-        # self.timestamp = time.time()
         
         # run self.update() after 0ms when mainloop starts
         self.window.after(0, self.update)
@@ -204,8 +201,12 @@ class pet():
         # Keep a reference to the image so that it's not garbage collected
         dialog.image = photo
 
+        # Set the window shape to match the image (with transparency)
+        dialog.config(bg="#404040")
+        dialog.attributes("-transparentcolor", "#404040")
+
         label = tk.Label(dialog, image=photo, bd=0)
-        label.pack(pady=10, padx=10)
+        label.pack()
 
         # This function will be called when the image is clicked, destroying the dialog
         def on_click(event=None):
@@ -219,9 +220,7 @@ class pet():
         height = photo.height()
         x = (self.window.winfo_screenwidth() // 2) - (width // 2)
         y = (self.window.winfo_screenheight() // 2) - (height // 2)
-        
-        # Withdraw the dialog, set the geometry, and then deiconify
-        dialog.withdraw()
+
         dialog.geometry(f'{width}x{height}+{x}+{y}')
         dialog.deiconify()
 
