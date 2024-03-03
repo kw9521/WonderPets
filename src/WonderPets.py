@@ -201,12 +201,7 @@ class pet():
 
         # Keep a reference to the image so that it's not garbage collected
         dialog.image = photo
-
-        # Set the window shape to match the image (with transparency)
-        dialog.config(bg='#404040')
-        dialog.attributes('-transparentcolor', '#404040')
-
-
+        
         label = tk.Label(dialog, image=photo, bd=0)
         label.pack()
 
