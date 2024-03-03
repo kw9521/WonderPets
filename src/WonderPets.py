@@ -192,7 +192,6 @@ class pet():
         self.window.after(0, lambda: self.show_custom_dialog(img_path))
 
     def show_custom_dialog(self, img_path):
-        # Creates a custom dialog with an image
         dialog = tk.Toplevel(self.window)
         dialog.title("Time for a break!")
         dialog.overrideredirect(True)  # This removes the window borders and title bar
@@ -201,21 +200,12 @@ class pet():
         # Load the image using PIL and create a PhotoImage
         image = Image.open(img_path)
         photo = ImageTk.PhotoImage(image)
-        
-        # Keep a reference to the image so that it's not garbage collected
-        dialog.image = photo  
-        
-        # Create a label and pack the image into it
-        label = tk.Label(dialog, image=photo, bd=0)  # bd=0 removes the default border from the label
-        label.pack(pady=10, padx=10)  # Padding can be adjusted or removed as needed
 
-        # Calculate the center position of the window
-        dialog.update_idletasks()  # Update geometry
-        width = photo.width()
-        height = photo.height()
-        x = (self.window.winfo_screenwidth() // 2) - (width // 2)
-        y = (self.window.winfo_screenheight() // 2) - (height // 2)
-        dialog.geometry(f'{width}x{height}+{x}+{y}')
+        # Keep a reference to the image so that it's not garbage collected
+        dialog.image = photo
+
+        label = tk.Label(dialog, image=photo, bd=0)
+        label.pack(pady=10, padx=10)
 
         # This function will be called when the image is clicked, destroying the dialog
         def on_click(event=None):
@@ -224,8 +214,20 @@ class pet():
         # Bind the click event to the label containing the image
         label.bind("<Button-1>", on_click)
 
-        # To automatically close the dialog after 5000 ms...approx 5 secs
-        # dialog.after(5000, dialog.destroy)  
+        dialog.update_idletasks()  # Update geometry now
+        width = photo.width()
+        height = photo.height()
+        x = (self.window.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.window.winfo_screenheight() // 2) - (height // 2)
+        
+        # Withdraw the dialog, set the geometry, and then deiconify
+        dialog.withdraw()
+        dialog.geometry(f'{width}x{height}+{x}+{y}')
+        dialog.deiconify()
+
+        # To automatically close the dialog after 5000 ms...approx 3 secs
+        # This shouldn't be a problem when we adjust the time it takes for each message to appear in the future!!!
+        dialog.after(3000, dialog.destroy)  
 
 
 pet()
