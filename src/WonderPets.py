@@ -9,7 +9,6 @@ relative_path = "\media"
 path_to_imgs = absolute_path+relative_path
 
 class pet():
-    
     def show_welcome_message(self):
         welcome_window = tk.Tk()
         welcome_window.withdraw()
