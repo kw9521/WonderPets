@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox 
 from PIL import Image, ImageTk, ImageOps
 import threading
 import datetime
@@ -32,7 +33,7 @@ class pet():
         label = tk.Label(selection_window, text="Before we get started...Please choose your pet:")
         label.pack(pady=10)
 
-        pets = ["stick-figure", "pixel-frog", "pixel-duck", "pink-cat", "cat-flopping-around", "corgi"]
+        pets = ["pixel-frog", "pixel-duck", "pink-cat", "cat-flopping-around", "corgi", "bear-roll"]
         for pet in pets:
             button = tk.Button(selection_window, text=pet, command=lambda pet_name=pet: on_pet_selected(pet_name))
             button.pack(pady=2)
@@ -159,6 +160,7 @@ class pet():
 
     def run_destress_activities(self):
         path_to_msg = absolute_path+relative_path+"\\messages\\"
+        
         short_break = ['curious.png', 'embrace-journey.png', 'great-things.png', 'porcupine.png', 'unicorn.png', 'victory.png']
         medium_break = ['enough.png', 'keep-going.png', 'hydration.png']
         long_break = ['screen-reminder.png', 'stretch.png', 'take-care.png']
@@ -201,8 +203,9 @@ class pet():
         dialog.image = photo
 
         # Set the window shape to match the image (with transparency)
-        dialog.config(bg="#404040")
-        dialog.attributes("-transparentcolor", "#404040")
+        dialog.config(bg='#404040')
+        dialog.attributes('-transparentcolor', '#404040')
+
 
         label = tk.Label(dialog, image=photo, bd=0)
         label.pack()
