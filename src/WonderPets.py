@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import *
 from PIL import Image, ImageTk, ImageOps
 import threading
 import datetime
